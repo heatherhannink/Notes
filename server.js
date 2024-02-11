@@ -1,25 +1,21 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-
-const PORT = 3001;
-
-const app = express();
-
-app.use(express.json());//
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static('public'));
-
+const express = require('express')
+const fs = require('fs')
+const path = require('path')
+const PORT = 3021
+const app = express()
+app.use(express.static('public'))
+app.use(express.json())
+// Import the feedback router
+const api = require('./routes/index')
+// Send all the requests that begin with /api to the index.js in the routes folder
+app.use('/api', api)
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
-app.get('/Notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/Notes.html'))
-);
-
+)
+app.get('/notes', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
+)
+//Starts the server to begin listening
 app.listen(PORT, () =>
-console.log(`App listening at http://localhost:${PORT}`)
-);
-
+  console.log(`App listening at http://localhost:${PORT}`)
+)
